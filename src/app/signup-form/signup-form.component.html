@@ -1,0 +1,62 @@
+<form novalidate (ngSubmit)="onSubmit(f)"  #f="ngForm">
+  <label>
+    <span>Full name</span>
+    <input
+      type="text"
+      name="name"
+      ngModel
+      #userName="ngModel" 
+      minlength="2"
+      placeholder="Your full name"
+      required>
+      <!--To export the value of a model to a variable, after binding it to the form directive use the # bfore 
+      your variable name and a quoted ngModel after the equal sign-->
+  </label>
+  <div class="error" *ngIf="userName.errors?.required && userName.touched" >
+    Name is required
+  </div>
+  <div class="error" *ngIf="userName.errors?.minlength && userName.touched" >
+    <!--required and minlength are sub property under the errors property-->
+    Minimum of 2 characters
+  </div>
+  <div ngModelGroup="account" #userAccount="ngModelGroup">
+    <label>
+      <span>Email address</span>
+      <input
+        type="email"
+        name="email"
+        placeholder="Your email address"
+        ngModel
+        #userEmail="ngModel"
+        required>
+        <!--<div class="error" *ngIf="userEmail.touched && userEmail.errors?.required" >
+          Email is required     
+        </div>-->
+        <!--touched property is equal to onBlur-->
+        <!--<div class="error" *ngIf="userEmail.errors?.minlength && userEmail.touched" >
+          Minimum of 2 characters
+        </div>--> <!--required and minlength are sub property under the errors property-->
+        
+    </label>
+    <label>
+      <span>Confirm address</span>
+      <input
+        type="email"
+        name="confirm"
+        placeholder="Confirm your email address"
+        ngModel
+        #confirm="ngModel"
+        minlength="2"
+        required>
+    </label>
+    <div class="error" *ngIf="userAccount.invalid && userAccount.touched" >
+      Both fields are required
+    </div>
+    
+  </div>
+  <button type="submit" [disabled]="f.invalid">Sign up</button>
+</form>
+{{f.value | json}} <br><br>
+{{userName.errors?.required | json}}
+<!--in template form you bind your models to the ngForm directive and export it to a public variable which holds the 
+models of our form-->
